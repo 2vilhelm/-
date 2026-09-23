@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>梦角传讯</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- 顶部栏 -->
+  <div id="header">
+    <span id="contactName">梦角</span>
+    <div id="headerBtns">
+  <button onclick="openSettings()">⚙</button>
+  <button onclick="startVideoCall('me')">📹</button>
+  <button onclick="exportChat()">📤</button>
+</div>
+  </div>
+
+  <!-- 聊天区 -->
+  <div id="chat"></div>
+
+  <!-- 引用预览条 -->
+  <div id="quoteBar" class="hidden">
+    <span id="quoteText"></span>
+    <button onclick="cancelQuote()">✕</button>
+  </div>
+
+  <!-- 表情面板 -->
+  <div id="emojiPanel" class="hidden">
+    <div id="emojiGrid"></div>
+    <div id="emojiAdd">
+      <button onclick="document.getElementById('emojiUpload').click()">+ 添加表情</button>
+      <input type="file" id="emojiUpload" accept="image/*" style="display:none" onchange="uploadEmoji(event)">
+      <small>长按表情可删除</small>
+    </div>
+  </div>
+
+  <!-- 底部输入栏 -->
+  <div id="inputBar">
+    <button onclick="toggleEmoji()">😊</button>
+    <button onclick="document.getElementById('imgInput').click()">🖼️</button>
+    <input type="file" id="imgInput" accept="image/*" style="display:none" onchange="sendImage(event)">
+    <input type="text" id="msgInput" placeholder="输入消息..." onkeydown="if(event.key==='Enter')sendText()">
+    <button onclick="sendText()">发送</button>
+  </div>
+
+</div>
+
+<!-- 设置面板 -->
+<div id="settingsPanel" class="hidden">
+  <h3>设置</h3>
+
+  <label>我的昵称：<input id="setMyName" type="text"></label>
+  <label>我的头像：<input id="setMyAvatar" type="file" accept="image/*"></label>
+  <label>梦角昵称：<input id="setDreamName" type="text"></label>
+  <label>梦角头像：<input id="setDreamAvatar" type="file" accept="image/*"></label>
+  <label>聊天背景：<input id="setBg" type="file" accept="image/*"></label>
+
+  <hr>  
+<h4>主题色</h4>
+<label>主色：<input id="setThemeColor" type="color" value="#6366f1"></label>
+<label>副色：<input id="setThemeColor2" type="color" value="#8b5cf6"></label>
+
+<hr>
+<h4>字体设置</h4>
+  <label>字号：<input id="setFontSize" type="number" value="15" min="10" max="40"> px</label>
+  <label>字色：<input id="setFontColor" type="color" value="#000000"></label>
+
+  <hr>
+  <h4>气泡样式（外部 CSS 链接）</h4>
+  <label>粘贴 CSS 链接，例如 https://example.com/bubble.css
+    <input id="setBubbleCSS" type="text" placeholder="https://...">
+  </label>
+  <button onclick="applyBubbleCSS()">应用这个 CSS</button>
+  <button onclick="clearBubbleCSS()">清除外部样式</button>
+
+  <hr>
+  <label>字卡分组：</label>
+  <div id="groupTabs" style="margin-bottom: 8px;"></div>
+  <button onclick="addGroup()">新增分组</button>
+  <button onclick="deleteGroup()">删除当前分组</button>
+
+  <label>当前分组的字卡（每行一张）：</label>
+  <textarea id="setCards" rows="6"></textarea>
+
+  <button onclick="saveSettings()">保存</button>
+  <button onclick="closeSettings()">关闭</button>
+</div>
+
+<!-- 消息操作菜单 -->
+<div id="msgMenu" class="hidden">
+  <button onclick="menuReply()">引用回复</button>
+  <button onclick="menuDelete()">删除</button>
+  <button onclick="menuFavorite()">收藏</button>
+</div>
+
+<!-- 视频通话弹窗 -->
+<div id="callModal" class="hidden">
+  <div id="callBox">
+    <div id="callAvatar" class="call-avatar">
+      <div class="pulse-ring"></div>
+      <img id="callAvatarImg" src="" alt="">
+    </div>
+    <p id="callName" class="call-name">梦角</p>
+    <p id="callText" class="call-status">正在呼叫...</p>
+    <div class="call-actions">
+      <button class="call-btn mute">🎤</button>
+      <button class="call-btn hangup" onclick="endCall()">📞</button>
+      <button class="call-btn video">📹</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
